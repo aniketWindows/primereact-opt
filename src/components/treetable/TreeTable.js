@@ -9,6 +9,7 @@ import { TreeTableHeader } from './TreeTableHeader';
 import { TreeTableBody } from './TreeTableBody';
 import { TreeTableFooter } from './TreeTableFooter';
 import { TreeTableScrollableView} from './TreeTableScrollableView';
+import $ from "jquery";
 
 export class TreeTable extends Component {
 

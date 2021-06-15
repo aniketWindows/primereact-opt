@@ -1,17 +1,18 @@
 {
-    "name": "primereact",
-    "version": "6.4.1",
-    "homepage": "https://www.primefaces.org/primereact",
+    "name": "primereact-opt",
+    "version": "6.4.0",
+    "author": "sagar pawar & aniket khara",
+    "homepage": "https://github.com/aniketWindows/primereact-opt.git",
     "repository": {
       "type": "git",
-      "url": "https://github.com/primefaces/primereact.git"
+      "url": "https://github.com/aniketWindows/primereact-opt.git"
     },
     "license": "MIT",
     "bugs": {
-        "url": "https://github.com/primefaces/primereact/issues"
+        "url": "https://github.com/aniketWindows/primereact-opt.git"
     },
     "keywords": [
-        "primereact",
+        "primereact-opt",
         "react",
         "ui framework",
         "component framework",
