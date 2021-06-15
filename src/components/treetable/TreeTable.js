@@ -386,29 +386,64 @@ export class TreeTable extends Component {
     }
 
     multisortField(node1, node2, multiSortMeta, index) {
-        const value1 = ObjectUtils.resolveFieldData(node1.data, multiSortMeta[index].field);
-        const value2 = ObjectUtils.resolveFieldData(node2.data, multiSortMeta[index].field);
-        let result = null;
 
-        if (value1 == null && value2 != null)
-            result = -1;
-        else if (value1 != null && value2 == null)
-            result = 1;
-        else if (value1 == null && value2 == null)
-            result = 0;
-        else {
-            if (value1 === value2)  {
-                return (multiSortMeta.length - 1) > (index) ? (this.multisortField(node1, node2, multiSortMeta, index + 1)) : 0;
+        function compareNumber(val1, val2) {
+            let a = Number(val1);
+            let b = Number(val2);
+
+            // greater
+            if (a > b) {
+                return 1;
             }
+            // less 
+            else if (a < b) {
+                return -1;
+            }
+            // equal
             else {
-                if ((typeof value1 === 'string' || value1 instanceof String) && (typeof value2 === 'string' || value2 instanceof String))
-                    return (multiSortMeta[index].order * value1.localeCompare(value2, undefined, { numeric: true }));
-                else
-                    result = (value1 < value2) ? -1 : 1;
+                return 0;
             }
         }
 
-        return (multiSortMeta[index].order * result);
+        function checkHoverContainer(ele, rawHtml) {
+            // Hover container present
+            if (ele && ele[0] && ele[0].getAttribute('data-value')) {
+                return ele[0].getAttribute('data-value');
+            }
+            return rawHtml;
+        }
+
+        let html1 = String(ObjectUtils.resolveFieldData(node1.data, multiSortMeta[index].field));
+
+        // We get this for hover container
+        let cell1 = String(html1).includes("cell-value") ? $($(html1)[0]).find('.cell-value') : null;
+        // We get this when no hover container
+        var value1 = String(html1).includes("cell-value") ? $(html1).attr('data-value') ? $(html1).attr('data-value') : checkHoverContainer(cell1, html1) : html1;
+
+
+        let html2 = String(ObjectUtils.resolveFieldData(node2.data, multiSortMeta[index].field));
+        let cell2 = String(html2).includes("cell-value") ? $($(html2)[0]).find('.cell-value') : null;
+        var value2 = String(html2).includes("cell-value") ? $(html2).attr('data-value') ? $(html2).attr('data-value') : checkHoverContainer(cell2, html2) : html2;
+
+        var result = null;
+        if (value1 == null && value2 != null) result = -1; else if (value1 != null && value2 == null) result = 1; else if (value1 == null && value2 == null) result = 0; else {
+            if (value1 === value2) {
+                return multiSortMeta.length - 1 > index ? this.multisortField(node1, node2, multiSortMeta, index + 1) : 0;
+            } else {
+                if ((typeof value1 === 'string' || value1 instanceof String) && (typeof value2 === 'string' || value2 instanceof String)) {
+                    if (Number(value1) && Number(value2)) {
+                        return multiSortMeta[index].order * compareNumber(value1, value2);
+                    }
+                    else {
+                        return multiSortMeta[index].order * value1.localeCompare(value2, undefined, {
+                            numeric: true
+                        });
+                    }
+                }
+                else result = value1 < value2 ? -1 : value1 > value2 ? 1 : 0;
+            }
+        }
+        return multiSortMeta[index].order * result;
     }
 
     filter(value, field, mode) {

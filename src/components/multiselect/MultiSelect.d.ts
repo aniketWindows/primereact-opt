@@ -1,6 +1,5 @@
 import * as React from 'react';
 import TooltipOptions from '../tooltip/TooltipOptions';
-import { VirtualScrollerProps } from '../virtualscroller/VirtualScroller';
 
 type MultiSelectOptionGroupTemplateType = React.ReactNode | ((option: any, index: number) => React.ReactNode);
 
@@ -51,16 +50,6 @@ interface MultiSelectChangeParams {
     target: MultiSelectChangeTargetOptions;
 }
 
-interface MultiSelectFilterParams {
-    originalEvent: React.SyntheticEvent;
-    filter: string;
-}
-
-interface MultiSelectAllParams {
-    originalEvent: React.SyntheticEvent;
-    checked: boolean;
-}
-
 export interface MultiSelectProps {
     id?: string;
     inputRef?: React.Ref<HTMLSelectElement>;
@@ -78,7 +67,6 @@ export interface MultiSelectProps {
     className?: string;
     panelClassName?: string;
     panelStyle?: object;
-    virtualScrollerOptions?: VirtualScrollerProps;
     scrollHeight?: string;
     placeholder?: string;
     fixedPlaceholder?: boolean;
@@ -94,6 +82,7 @@ export interface MultiSelectProps {
     tabIndex?: number;
     dataKey?: string;
     inputId?: string;
+    required?: boolean;
     appendTo?: MultiSelectAppendToType;
     tooltip?: string;
     tooltipOptions?: TooltipOptions;
@@ -106,16 +95,11 @@ export interface MultiSelectProps {
     panelHeaderTemplate?: MultiSelectPanelHeaderTemplateType;
     panelFooterTemplate?: MultiSelectPanelFooterTemplateType;
     transitionOptions?: object;
-    dropdownIcon?: string;
-    showSelectAll?: boolean;
-    selectAll?: boolean;
     onChange?(e: MultiSelectChangeParams): void;
     onFocus?(event: React.FocusEvent<HTMLInputElement>): void;
     onBlur?(event: React.FocusEvent<HTMLInputElement>): void;
     onShow?(): void;
     onHide?(): void;
-    onFilter?(e: MultiSelectFilterParams): void;
-    onSelectAll?(e: MultiSelectAllParams): void;
 }
 
 export declare class MultiSelect extends React.Component<MultiSelectProps, any> { }
